@@ -1,0 +1,8 @@
+.server-card {
+  /* 移除边框 */
+  border: none;
+  /* 让高度自适应内容 */
+  height: auto;
+  /* 如果需要的话可以设置最小高度 */
+  min-height: fit-content;
+}

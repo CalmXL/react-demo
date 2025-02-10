@@ -1,0 +1,163 @@
+{
+  "id": "4812588",
+  "name": "serve-icons",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "751516",
+      "name": "延迟",
+      "font_class": "yanchi",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "1058864",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "3876341",
+      "name": "nginx",
+      "font_class": "nginx",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "7190070",
+      "name": "开放平台",
+      "font_class": "kaifangpingtai",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    },
+    {
+      "icon_id": "11834426",
+      "name": "监控驾驶舱",
+      "font_class": "jiankongjiashicang",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "12316599",
+      "name": "延迟",
+      "font_class": "yanchi1",
+      "unicode": "e724",
+      "unicode_decimal": 59172
+    },
+    {
+      "icon_id": "15378745",
+      "name": "redis",
+      "font_class": "redis",
+      "unicode": "ec7c",
+      "unicode_decimal": 60540
+    },
+    {
+      "icon_id": "16137356",
+      "name": "开放平台",
+      "font_class": "kaifangpingtai1",
+      "unicode": "e7c9",
+      "unicode_decimal": 59337
+    },
+    {
+      "icon_id": "19411069",
+      "name": "icon_manager",
+      "font_class": "icon_manager",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "19525720",
+      "name": "达梦数据库",
+      "font_class": "damengshujuku",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "21758117",
+      "name": "开放平台运维",
+      "font_class": "kaifangpingtaiyunwei",
+      "unicode": "e6af",
+      "unicode_decimal": 59055
+    },
+    {
+      "icon_id": "22211620",
+      "name": "定时任务",
+      "font_class": "dingshirenwu",
+      "unicode": "e71b",
+      "unicode_decimal": 59163
+    },
+    {
+      "icon_id": "24953576",
+      "name": "驾驶舱",
+      "font_class": "jiashicang",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "25107145",
+      "name": "K",
+      "font_class": "K",
+      "unicode": "e6d4",
+      "unicode_decimal": 59092
+    },
+    {
+      "icon_id": "26254466",
+      "name": "达梦",
+      "font_class": "dameng",
+      "unicode": "e7ca",
+      "unicode_decimal": 59338
+    },
+    {
+      "icon_id": "35336009",
+      "name": "k",
+      "font_class": "k",
+      "unicode": "e8ae",
+      "unicode_decimal": 59566
+    },
+    {
+      "icon_id": "39214890",
+      "name": "银河麒麟",
+      "font_class": "weibiaoti-1_fuzhi",
+      "unicode": "e83a",
+      "unicode_decimal": 59450
+    },
+    {
+      "icon_id": "39545913",
+      "name": "驾驶舱",
+      "font_class": "BI",
+      "unicode": "ea9a",
+      "unicode_decimal": 60058
+    },
+    {
+      "icon_id": "40061294",
+      "name": "定时任务-copy",
+      "font_class": "job",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "40152259",
+      "name": "麒麟",
+      "font_class": "qilin",
+      "unicode": "e872",
+      "unicode_decimal": 59506
+    },
+    {
+      "icon_id": "40309799",
+      "name": "dashboard",
+      "font_class": "dashboard",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "40426357",
+      "name": "k",
+      "font_class": "k1",
+      "unicode": "e692",
+      "unicode_decimal": 59026
+    }
+  ]
+}
