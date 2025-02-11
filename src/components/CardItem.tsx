@@ -15,6 +15,7 @@ const CarItem: React.FC<ICardItemProps> = ({
   status = 'success',
 }) => {
   const statusColor = getStatusColor(status);
+  const isDangerous = status === 'error';
 
   function getStatusColor(status: Status) {
     switch (status) {
@@ -32,9 +33,12 @@ const CarItem: React.FC<ICardItemProps> = ({
   return (
     <motion.div
       whileHover={{ scale: 1.1 }}
-      className={`cursor-pointer border-2 w-[350px] h-[50px] rounded-lg shadow-lg bg-white flex items-center justify-center`}>
+      className={`cursor-pointer border-2 w-[350px] h-[50px] rounded-lg shadow-lg flex items-center justify-center bg-white 
+      ${isDangerous ? 'animate-pulse bg-red-300' : ''}  `}>
       <i className={`iconfont text-2xl ${icon} mr-2 ${statusColor}`}></i>
-      <span>{title}</span>
+      <span className={`${isDangerous ? 'text-gray' : statusColor}`}>
+        {title}
+      </span>
     </motion.div>
   );
 };

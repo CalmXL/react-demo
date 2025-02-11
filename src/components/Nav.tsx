@@ -8,14 +8,14 @@ export default function Nav() {
         className={({ isActive }) =>
           isActive ? 'text-white font-bold mx-2' : 'text-gray-300 mx-2'
         }>
-        Home
+        监控
       </NavLink>
       <NavLink
         to="/details"
         className={({ isActive }) =>
           isActive ? 'text-white font-bold mx-2' : 'text-gray-300 mx-2'
         }>
-        Details
+        详情
       </NavLink>
     </nav>
   );

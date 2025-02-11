@@ -1,3 +1,4 @@
+import { motion } from 'motion/react';
 import Card from '@/components/Card';
 
 export default function Details() {
@@ -15,10 +16,10 @@ export default function Details() {
   ];
 
   return (
-    <div className="p-5 flex">
+    <motion.div className="p-5 flex ">
       {infos.map((item) => {
-        return <Card {...item} />;
+        return <Card key={item.title} {...item} />;
       })}
-    </div>
+    </motion.div>
   );
 }

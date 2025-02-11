@@ -13,6 +13,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-shouce:before {
+  content: '\ef0e';
+}
+
+.icon-tishi:before {
+  content: '\e648';
+}
+
 .icon-yanchi:before {
   content: '\e620';
 }

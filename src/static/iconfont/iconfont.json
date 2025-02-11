@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18099202",
+      "name": "手册",
+      "font_class": "shouce",
+      "unicode": "ef0e",
+      "unicode_decimal": 61198
+    },
+    {
+      "icon_id": "1167186",
+      "name": "提示",
+      "font_class": "tishi",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
       "icon_id": "751516",
       "name": "延迟",
       "font_class": "yanchi",
