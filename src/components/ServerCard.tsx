@@ -1,37 +1,27 @@
-import { useEffect, useState } from 'react';
+import { memo } from 'react';
 import { motion } from 'motion/react';
+import { Carousel } from 'antd';
 import CardItem from './CardItem';
 import './serverCard.css';
-import { ICard } from '@/types';
+import { InfoObject } from '@/types';
 
-export default function ServerCard({
-  server,
-  info,
-}: {
-  server: string;
-  info: ICard[];
-}) {
-  const items: ICard[] = [
-    { title: '门户服务', icon: 'icon-home', status: 'success' },
-    { title: '管理后台', icon: 'icon-manager', status: 'success' },
-    { title: '驾驶舱', icon: 'icon-jiashicang', status: 'success' },
-    { title: '定时任务服务', icon: 'icon-job', status: 'success' },
-    { title: '对外开放服务', icon: 'icon-open', status: 'success' },
-  ];
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
+function ServerCard({ host, monitor }: InfoObject) {
   const isRunningSuccess = () => {
-    return info.every((item) => item.status === 'success');
+    return [...monitor].every((item) => item.status === 'NORMAL');
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-    }, 2000);
+  // monitor 进行数据分离
+  const servers = [
+    'Cockpit',
+    'Workbench',
+    'Workmanage',
+    'OpenService',
+    'XxlJob',
+  ];
+  const info1 = monitor.filter((item) => !servers.includes(item.type));
+  const info2 = monitor.filter((item) => servers.includes(item.type));
 
-    return () => clearInterval(interval);
-  }, [items.length]);
+  console.log(info1, info2);
 
   return (
     <div
@@ -41,29 +31,10 @@ export default function ServerCard({
       <motion.h1
         whileHover={{ scale: 1.1 }}
         className=" cursor-pointer text-2xl font-bold">
-        节点: {server}
+        节点: {host}
       </motion.h1>
-      {/* <CardItem title="系统延迟" icon="icon-yanchi" status="error" />
-      <CardItem title="节点状态" icon="icon-node" status="warn" />
-      <CardItem title="Keep-alived" icon="icon-k" status="success" />
-      <CardItem title="Nginx" icon="icon-nginx" status="success" />
-      <CardItem title="Redis" icon="icon-redis" status="success" />
-      <CardItem title="达梦数据库" icon="icon-dm" status="success" />
 
-      <motion.div
-        key={currentIndex}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 1 }}>
-        <CardItem
-          title={items[currentIndex].title}
-          icon={items[currentIndex].icon}
-          status={items[currentIndex].status}
-        />
-      </motion.div> */}
-
-      {info.map((item, index) => (
+      {info1.map((item, index) => (
         <CardItem
           key={index}
           title={item.title}
@@ -71,6 +42,21 @@ export default function ServerCard({
           status={item.status}
         />
       ))}
+
+      <div className="w-[350px]">
+        <Carousel autoplay fade dots={false}>
+          {info2.map((item2) => (
+            <CardItem
+              key={item2.icon}
+              title={item2.title}
+              icon={item2.icon}
+              status={item2.status}
+            />
+          ))}
+        </Carousel>
+      </div>
     </div>
   );
 }
+
+export default memo(ServerCard);
