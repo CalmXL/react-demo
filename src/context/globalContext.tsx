@@ -1,9 +1,4 @@
+import { MonitorData } from '@/types';
 import React from 'react';
 
-export const GlobalContext = React.createContext<
-  | {
-      ip: string;
-      infos: any[];
-    }
-  | []
->([]);
+export const GlobalContext = React.createContext<MonitorData[] | []>([]);

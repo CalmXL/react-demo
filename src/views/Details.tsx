@@ -1,52 +1,46 @@
 import { motion } from 'motion/react';
 import Card from '@/components/Card';
 import { useAppSelector } from '@/store';
-import store from '@/store';
-import { IData } from '@/types';
 import { useEffect, useState } from 'react';
+import { MonitorData } from '@/types';
 
 export default function Details() {
-  // const warnings = useAppSelector(
-  //   (state) => state.warnings
-  // ) as unknown as IData[]; // 移到组件顶层
-  const [currentValue, setCurrentValue] = useState<IData[]>([]);
+  const [warnings, setWarnings] = useState<MonitorData[]>([]);
+  const list = useAppSelector((state) => state.warnings.list); // 移到组件顶层
+
+  console.log(list);
 
   useEffect(() => {
-    const unsubscribe = store.subscribe(() => {
-      const latestWarnings = store.getState().warnings;
-      console.log(latestWarnings);
+    // 确认所有的 warnings
+    let innerWarnings: MonitorData[] = [];
 
-      if (currentValue !== latestWarnings.warnings) {
-        setCurrentValue(latestWarnings.warnings); // 使用 setCurrentValue 更新状态
-      }
+    list.forEach(({ ip, infos }) => {
+      const arr = infos.filter((item) => item.status !== 'NORMAL');
+
+      const arr2 = arr.map((item) => {
+        return {
+          ...item,
+          ip,
+        };
+      });
+
+      innerWarnings = innerWarnings.concat(...arr2);
     });
 
-    return () => {
-      unsubscribe(); // 清理订阅
-    };
-  }, [currentValue]); // 依赖于 warnings
-
-  // const infos = [
-  //   {
-  //     title: 'redis',
-  //     ip: '10.123.0.190',
-  //     content: 'redis出现错误, 请检查对应服务',
-  //     icon: 'icon-redis',
-  //   },
-  //   {
-  //     title: 'DM',
-  //     ip: '10.123.0.191',
-  //     content: 'mysql出现错误, 请检查对应服务',
-  //     icon: 'icon-dm',
-  //   },
-  // ];
+    setWarnings(innerWarnings);
+  }, [list]);
 
   return (
-    <motion.div className="p-5 flex ">
-      {currentValue.length > 0 &&
-        currentValue.map((item) => {
-          return <Card key={item.title} {...item} />;
+    <motion.div className="px-10 h-full flex flex-wrap">
+      {warnings.length > 0 &&
+        warnings.map((item) => {
+          return <Card key={`${item.ip}${item.title}`} {...item} />;
         })}
+      {warnings.length === 0 && (
+        <div className="w-full h-full flex justify-center items-center">
+          暂无错误
+        </div>
+      )}
     </motion.div>
   );
 }

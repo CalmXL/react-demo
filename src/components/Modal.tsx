@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 import { MonitorData } from '@/types';
@@ -21,11 +21,11 @@ const WarnModal: React.FC<IProps> = ({ warnings }) => {
   });
 
   useEffect(() => {
-    // if (warnings.length > 0) {
-    //   showModal();
-    // } else {
-    //   closeModal();
-    // }
+    if (warnings.length > 0) {
+      showModal();
+    } else {
+      closeModal();
+    }
   }, [warnings]);
 
   const draggleRef = useRef<HTMLDivElement>(null!);
@@ -64,7 +64,6 @@ const WarnModal: React.FC<IProps> = ({ warnings }) => {
 
   return (
     <>
-      <Button onClick={showModal}>Open Draggable Modal</Button>
       <Modal
         footer={null}
         maskClosable={false}

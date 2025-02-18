@@ -81,6 +81,8 @@ class SSEConnection {
   // 处理连接错误
   handleError() {
     if (this.eventSource) {
+      console.log('close 当前连接');
+
       this.eventSource.close(); // 关闭当前连接
     }
 

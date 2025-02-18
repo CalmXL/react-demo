@@ -1,18 +1,16 @@
 import { motion } from 'motion/react';
-import { notification } from 'antd';
-import { InfoObject, NotificationType, MonitorData } from '@/types';
-import { useEffect, useCallback, useState, useContext } from 'react';
+import { InfoObject, MonitorData } from '@/types';
+import { useEffect, useState } from 'react';
 
-import SSEConnection from '@/utils/eventSource';
 import Logs from '@/components/Log';
 import ServerCard from '@/components/ServerCard';
 import WarnModal from '@/components/Modal';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { setWarningsActions } from '@/store/feature/warnings';
-import { GlobalContext } from '@/context/globalContext';
+import { setWarningsAction } from '@/store/feature/warnings';
 
 export default function Home() {
-  const context = useContext(GlobalContext);
+  // const context = useContext(GlobalContext); // 获取 context
+
   const data: MonitorData[] = [
     { type: 'Ping', title: '系统延迟', icon: 'icon-yanchi', status: 'NORMAL' },
     { type: 'Linux', title: '节点状态', icon: 'icon-node', status: 'NORMAL' },
@@ -53,7 +51,8 @@ export default function Home() {
 
   const dispatch = useAppDispatch();
 
-  const { list } = useAppSelector((state) => {
+  // 从 redux 中获取数据
+  const list = useAppSelector((state) => {
     return state.warnings.list;
   });
 
@@ -62,87 +61,41 @@ export default function Home() {
   const [info3, setInfo3] = useState<InfoObject | undefined>(undefined);
   const [warnings, setWarnings] = useState<MonitorData[]>([]);
 
-  new SSEConnection(
-    // 'http://192.168.76.211:12555/msscn/serverStatusSseController/monitor',
-    'http://localhost:3000/sse',
-    {
-      eventHandlers: {
-        open() {
-          console.log('sse Connection success');
-        },
-        message(event: Event) {
-          const messageEvent = event as MessageEvent;
-          const { host, monitor } = JSON.parse(messageEvent.data);
+  // 根据 ip 分离 list
+  useEffect(() => {
+    list.forEach((item) => {
+      const { ip, infos } = item;
 
-          // 处理 monitor
-          const newArr = data.map((item) => {
-            const i = monitor.find((m) => m[item.type]);
-
-            return {
-              ...item,
-              status: i[item.type],
-            };
+      switch (ip) {
+        case '10.123.0.190':
+          setInfo({
+            host: ip,
+            monitor: infos,
           });
+          break;
 
-          switch (host) {
-            case '10.123.0.190':
-              setInfo({
-                host,
-                monitor: newArr,
-              });
-              break;
-            case '10.123.0.191':
-              setInfo2({
-                host,
-                monitor: newArr,
-              });
-              break;
+        case '10.123.0.191':
+          setInfo2({
+            host: ip,
+            monitor: infos,
+          });
+          break;
 
-            case '10.123.0.192':
-              setInfo3({
-                host,
-                monitor: newArr,
-              });
-              break;
-            default:
-              break;
-          }
+        case '10.123.0.192':
+          setInfo3({
+            host: ip,
+            monitor: infos,
+          });
+          break;
 
-          console.log('10s');
-
-          dispatch(setWarningsActions({ ip: host, infos: monitor }));
-        },
-        error() {
-          console.log('sse Connection error');
-        },
-      },
-    }
-  );
-
-  const [api, contextHolder] = notification.useNotification({
-    stack: { threshold: 6 },
-  });
-
-  const openNotificationWithIcon = useCallback(
-    (type: NotificationType, title: string, ip: string) => {
-      api[type]({
-        message: `IP: ${ip}`,
-        description: `${title}出现问题， 请检查。`,
-        duration: null,
-        placement: 'top',
-      });
-    },
-    [api]
-  );
+        default:
+          break;
+      }
+    });
+  }, [list]);
 
   // 统计错误信息进行提示
   useEffect(() => {
-    // 立即执行
-
-    // list.map((item) => {
-    //   const { ip, infos } = item;
-    // });
-
     // 确认所有的 warnings
     const warnings: MonitorData[] = [];
 
@@ -174,11 +127,11 @@ export default function Home() {
     });
 
     setWarnings(warnings);
-  }, [info, info2, info3, openNotificationWithIcon]);
+    dispatch(setWarningsAction(warnings));
+  }, [dispatch, info, info2, info3]);
 
   return (
     <>
-      {contextHolder}
       <motion.div className="w-full h-full flex-col justify-center items-center mt-2">
         <div className="w-[90%] mx-[5%] flex justify-between">
           <ServerCard

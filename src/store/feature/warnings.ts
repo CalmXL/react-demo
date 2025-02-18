@@ -10,13 +10,14 @@ const warningSlice = createSlice({
   name: 'warningStore',
   initialState: {
     list: [] as Info[],
+    warnings: [],
   },
   reducers: {
-    setWarningsActions(state, { payload }: { payload: Info }) {
+    setInfosActions(state, { payload }: { payload: Info }) {
       const isExist = state.list.find((item) => item.ip === payload.ip);
       if (isExist) {
         // ip 存在
-        state.list.map((item) => {
+        state.list = state.list.map((item) => {
           if (item.ip === payload.ip) {
             return {
               ip: payload.ip,
@@ -29,9 +30,12 @@ const warningSlice = createSlice({
         state.list.push(payload);
       }
     },
+    setWarningsAction(state, { payload }) {
+      state.warnings = payload;
+    },
   },
 });
 
-export const { setWarningsActions } = warningSlice.actions;
+export const { setInfosActions, setWarningsAction } = warningSlice.actions;
 
 export default warningSlice.reducer;

@@ -21,8 +21,6 @@ function ServerCard({ host, monitor }: InfoObject) {
   const info1 = monitor.filter((item) => !servers.includes(item.type));
   const info2 = monitor.filter((item) => servers.includes(item.type));
 
-  console.log(info1, info2);
-
   return (
     <div
       className={`bg-white w-[25rem] h-[33rem] rounded-xl shadow-2xl p-4 flex flex-col items-center justify-between opacity-80 ${
@@ -36,7 +34,7 @@ function ServerCard({ host, monitor }: InfoObject) {
 
       {info1.map((item, index) => (
         <CardItem
-          key={index}
+          key={item.icon}
           title={item.title}
           icon={item.icon}
           status={item.status}
