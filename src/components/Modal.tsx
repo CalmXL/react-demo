@@ -21,11 +21,11 @@ const WarnModal: React.FC<IProps> = ({ warnings }) => {
   });
 
   useEffect(() => {
-    if (warnings.length > 0) {
-      showModal();
-    } else {
-      closeModal();
-    }
+    // if (warnings.length > 0) {
+    //   showModal();
+    // } else {
+    //   closeModal();
+    // }
   }, [warnings]);
 
   const draggleRef = useRef<HTMLDivElement>(null!);

@@ -6,7 +6,7 @@ import { MonitorData } from '@/types';
 
 export default function Details() {
   const [warnings, setWarnings] = useState<MonitorData[]>([]);
-  const list = useAppSelector((state) => state.warnings.list); // 移到组件顶层
+  const list = useAppSelector((state) => state.warnings.list);
 
   console.log(list);
 

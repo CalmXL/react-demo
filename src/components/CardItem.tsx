@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-
-type Status = 'NORMAL' | 'WARNING' | 'ERROR';
+import { Status } from '@/types';
 
 interface ICardItemProps {
   title: string;

@@ -1,8 +1,10 @@
+export type Status = 'NORMAL' | 'WARNING' | 'ERROR';
+
 export interface ICard {
   type: string;
   title: string;
   icon: string;
-  status: 'WARNING' | 'ERROR' | 'NORMAL';
+  status: Status;
 }
 
 export interface IInfo {
@@ -12,7 +14,7 @@ export interface IInfo {
 
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 export interface IData {
-  type: string;
+  type?: string;
   title: string;
   icon: string;
   status: string;
@@ -20,8 +22,8 @@ export interface IData {
 }
 
 export interface MonitorData extends IData {
-  [key: string]: string | undefined; // 监控项的名称和状态
-  status: 'WARNING' | 'ERROR' | 'NORMAL'; // 添加状态类型
+  [key: string]: string | undefined;
+  status: Status; // 添加状态类型
 }
 
 export interface InfoObject {
