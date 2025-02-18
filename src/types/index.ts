@@ -12,7 +12,6 @@ export interface IInfo {
   servers: ICard[];
 }
 
-export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 export interface IData {
   type?: string;
   title: string;
@@ -22,7 +21,7 @@ export interface IData {
 }
 
 export interface MonitorData extends IData {
-  [key: string]: string | undefined;
+  content: string;
   status: Status; // 添加状态类型
 }
 

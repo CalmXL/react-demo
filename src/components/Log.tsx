@@ -1,7 +1,7 @@
 import { useAppSelector } from '@/store';
-import { List, Spin } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import { useState, useEffect } from 'react';
+import { List, Spin } from 'antd';
 
 import { MonitorData, Status } from '@/types';
 
@@ -30,6 +30,8 @@ const Logs: React.FC = () => {
   // };
 
   useEffect(() => {
+    setLoading1(true); // 设置 loading 为 true
+    setLoading2(true); // 设置 loading 为 true
     // appendData(false);
     const corrects: MonitorData[] = [];
     const warnings: MonitorData[] = [];
@@ -58,14 +60,8 @@ const Logs: React.FC = () => {
 
     setData1(corrects);
     setData2(warnings);
-
-    if (corrects.length > 0) {
-      setLoading1(false);
-    }
-
-    if (warnings.length > 0) {
-      setLoading2(false);
-    }
+    setLoading1(false);
+    setLoading2(false);
   }, [list]);
 
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
@@ -112,7 +108,7 @@ const Logs: React.FC = () => {
                     {item.title}-{item.ip}
                   </div>
                 </div>
-                <div>
+                <div className="mr-4">
                   <div>{item.content}</div>
                 </div>
               </List.Item>
@@ -137,7 +133,7 @@ const Logs: React.FC = () => {
                     {item.title}-{item.ip}
                   </div>
                 </div>
-                <div>
+                <div className="mr-4">
                   <div>{item.content}</div>
                 </div>
               </List.Item>

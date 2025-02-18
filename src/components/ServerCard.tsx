@@ -18,8 +18,8 @@ function ServerCard({ host, monitor }: InfoObject) {
     'OpenService',
     'XxlJob',
   ];
-  const info1 = monitor.filter((item) => !servers.includes(item.type));
-  const info2 = monitor.filter((item) => servers.includes(item.type));
+  const info1 = monitor.filter((item) => !servers.includes(item.type!));
+  const info2 = monitor.filter((item) => servers.includes(item.type!));
 
   return (
     <div
@@ -32,7 +32,7 @@ function ServerCard({ host, monitor }: InfoObject) {
         节点: {host}
       </motion.h1>
 
-      {info1.map((item, index) => (
+      {info1.map((item) => (
         <CardItem
           key={item.icon}
           title={item.title}

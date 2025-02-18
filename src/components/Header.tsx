@@ -5,7 +5,7 @@ export default function Header({ title }: { title: string }) {
   return (
     <div className="bg-gray-800 relative">
       <Nav />
-      <h1 className="absolute text-xl top-1/2 left-1/2 text-white -translate-x-1/2 -translate-y-1/2">
+      <h1 className="absolute text-xl font-bold top-1/2 left-1/2 text-white -translate-x-1/2 -translate-y-1/2">
         {title}
       </h1>
 

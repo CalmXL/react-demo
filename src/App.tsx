@@ -10,7 +10,7 @@ import SSEConnection from './utils/eventSource';
 import { MonitorData } from './types';
 
 function App() {
-  const [data, setData] = useState<MonitorData[]>([]);
+  const [data, _] = useState<MonitorData[]>([]);
 
   const defaultData: MonitorData[] = [
     { type: 'Ping', title: '系统延迟', icon: 'icon-yanchi', status: 'NORMAL' },
@@ -67,11 +67,13 @@ function App() {
 
           // 处理 monitor
           const newData = defaultData.map((item) => {
-            const i = monitor.find((m) => m[item.type]);
+            const i = monitor.find(
+              (m: { [key: string]: string }) => m[item.type!]
+            );
 
             return {
               ...item,
-              status: i[item.type],
+              status: i?.[item.type!],
             };
           });
 
@@ -88,7 +90,7 @@ function App() {
   return (
     // bg-[url('/src/assets/images/bg.png')
     <div className="w-full h-full flex-col  bg-gray-100 ]">
-      <Header title="这是一个渐变色的标题" />
+      <Header title="工作台集群监控" />
       <GlobalContext.Provider value={data}>
         <div>{useRoutes(routes)}</div>
       </GlobalContext.Provider>
