@@ -15,6 +15,7 @@ const CarItem: React.FC<ICardItemProps> = ({
 }) => {
   const statusColor = getStatusColor(status);
   const isDangerous = status === 'ERROR';
+  const isWarning = status === 'WARNING' || status === '-1';
 
   function getStatusColor(status: Status | string) {
     switch (status) {
@@ -22,9 +23,9 @@ const CarItem: React.FC<ICardItemProps> = ({
         return 'text-green-500';
       case 'WARNING':
       case '-1':
-        return 'text-orange-500';
+        return 'text-orange-900';
       case 'ERROR':
-        return 'text-red-500';
+        return 'text-red-900';
       default:
         return 'text-green-500';
     }
@@ -34,13 +35,18 @@ const CarItem: React.FC<ICardItemProps> = ({
     <motion.div
       whileHover={{ scale: 1.1 }}
       className={`cursor-pointer border-2 w-[100%] py-2 rounded-lg shadow-lg flex items-center justify-center 
-      ${isDangerous ? 'animate-pulse bg-red-400' : 'bg-white '}`}>
+      ${
+        isDangerous
+          ? 'animate-pulse bg-red-400'
+          : isWarning
+          ? 'animate-pulse bg-orange-300'
+          : 'bg-white'
+      } 
+      }`}>
       <i className={`iconfont text-2xl ${icon} mr-2 ${statusColor}`}></i>
-      <span className={`${isDangerous ? 'text-gray' : statusColor}`}>
-        {title}
-      </span>
+      <span className={`${statusColor}`}>{title}</span>
       {title === '系统延迟' && (
-        <span className={`text-sm ${statusColor}`}>:{status} </span>
+        <span className={`text-sm ${statusColor}`}>:{status}</span>
       )}
     </motion.div>
   );
