@@ -3,7 +3,7 @@ import VirtualList from 'rc-virtual-list';
 import { useState, useEffect } from 'react';
 import { List, Spin } from 'antd';
 
-import { MonitorData, Status } from '@/types';
+import { MonitorData, Status, InfoObject, DefaultData } from '@/types';
 
 // const fakeDataUrl =
 //   'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
@@ -14,8 +14,8 @@ const Logs: React.FC = () => {
 
   const [loading1, setLoading1] = useState<boolean>(true);
   const [loading2, setLoading2] = useState<boolean>(true);
-  const [data1, setData1] = useState<MonitorData[]>([]);
-  const [data2, setData2] = useState<MonitorData[]>([]);
+  const [data1, setData1] = useState<DefaultData[]>([]);
+  const [data2, setData2] = useState<DefaultData[]>([]);
 
   // const appendData = (showMessage = true) => {
   //   fetch(fakeDataUrl)
@@ -32,26 +32,20 @@ const Logs: React.FC = () => {
     setLoading1(true); // 设置 loading 为 true
     setLoading2(true); // 设置 loading 为 true
     // appendData(false);
-    const corrects: MonitorData[] = [];
-    const warnings: MonitorData[] = [];
+    const corrects: DefaultData[] = [];
+    const warnings: DefaultData[] = [];
 
-    list.map(({ ip, infos }) => {
-      infos.map((item: MonitorData) => {
-        if (item.status === 'NORMAL') {
+    list.map(({ host, monitor }: InfoObject) => {
+      monitor.map((item) => {
+        if (item.value === 'NORMAL') {
           corrects.push({
-            ip,
-            icon: item.icon,
-            title: item.title,
-            content: item.title,
-            status: item.status,
+            host,
+            ...item,
           });
         } else {
           warnings.push({
-            ip,
-            icon: item.icon,
-            title: item.title,
-            content: item.title,
-            status: item.status,
+            host,
+            ...item,
           });
         }
       });
@@ -76,7 +70,7 @@ const Logs: React.FC = () => {
     }
   };
 
-  function getStatusColor(status: Status) {
+  function getStatusColor(status: Status | string) {
     switch (status) {
       case 'NORMAL':
         return 'text-green-500';
@@ -97,18 +91,18 @@ const Logs: React.FC = () => {
             data={data1}
             height={ContainerHeight}
             itemHeight={40}
-            itemKey={(record) => `${record.ip}${record.title}`}
+            itemKey={(record) => `${record.host}${record.title}`}
             onScroll={onScroll}>
-            {(item: MonitorData) => (
-              <List.Item key={`${item.ip}${item.title}`}>
-                <div className={`${getStatusColor(item.status)}`}>
+            {(item: DefaultData) => (
+              <List.Item key={`${item.host}${item.title}`}>
+                <div className={`${getStatusColor(item.value)}`}>
                   <i className={`iconfont ${item.icon}`}></i>
                   <div>
-                    {item.title}-{item.ip}
+                    {item.title}-{item.host}
                   </div>
                 </div>
                 <div className="mr-4">
-                  <div>{item.content}</div>
+                  <div>{item.title}</div>
                 </div>
               </List.Item>
             )}
@@ -122,18 +116,18 @@ const Logs: React.FC = () => {
             data={data2}
             height={ContainerHeight}
             itemHeight={40}
-            itemKey={(record) => `${record.ip}${record.title}`}
+            itemKey={(record) => `${record.host}${record.title}`}
             onScroll={onScroll}>
-            {(item: MonitorData) => (
-              <List.Item key={`${item.ip}${item.title}`}>
-                <div className={`${getStatusColor(item.status)}`}>
+            {(item: DefaultData) => (
+              <List.Item key={`${item.host}${item.title}`}>
+                <div className={`${getStatusColor(item.value)}`}>
                   <i className={`iconfont ${item.icon}`}></i>
                   <div>
-                    {item.title}-{item.ip}
+                    {item.title}-{item.host}
                   </div>
                 </div>
                 <div className="mr-4">
-                  <div>{item.content}</div>
+                  <div>{item.title}</div>
                 </div>
               </List.Item>
             )}
