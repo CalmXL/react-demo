@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Modal } from 'antd';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
-import { MonitorData } from '@/types';
+import { WarningData } from '@/types';
 
 import WaringTable from '@/components/WarningTable';
 
 interface IProps {
-  warnings: MonitorData[];
+  warnings: WarningData[];
 }
 
 const WarnModal: React.FC<IProps> = ({ warnings }) => {

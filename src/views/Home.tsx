@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { InfoObject, MonitorData } from '@/types';
+import { InfoObject, DefaultData, WarningData } from '@/types';
 import { useEffect, useState } from 'react';
 
 import Logs from '@/components/Log';
@@ -10,42 +10,40 @@ import { setWarningsAction } from '@/store/feature/warnings';
 
 export default function Home() {
   // const context = useContext(GlobalContext); // 获取 context
-
-  const data: MonitorData[] = [
-    { type: 'Ping', title: '系统延迟', icon: 'icon-yanchi', status: 'NORMAL' },
-    { type: 'Linux', title: '节点状态', icon: 'icon-node', status: 'NORMAL' },
-    { type: 'Nginx', title: 'Nginx', icon: 'icon-nginx', status: 'NORMAL' },
-    { type: 'Redis', title: 'Redis', icon: 'icon-redis', status: 'NORMAL' },
-    { type: 'DM8', title: '达梦', icon: 'icon-dm', status: 'NORMAL' },
+  const data: DefaultData[] = [
+    { key: 'Ping', title: '系统延迟', icon: 'icon-yanchi', value: '0.211' },
+    { key: 'Nginx', title: 'Nginx', icon: 'icon-nginx', value: 'NORMAL' },
+    { key: 'Redis', title: 'Redis', icon: 'icon-redis', value: 'NORMAL' },
+    { key: 'DM8', title: '达梦', icon: 'icon-dm', value: 'NORMAL' },
     {
-      type: 'Workbench',
+      key: 'Workbench',
       title: '门户服务',
       icon: 'icon-home',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
     {
-      type: 'Workmanage',
+      key: 'Workmanage',
       title: '管理后台',
       icon: 'icon-manager',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
     {
-      type: 'Cockpit',
+      key: 'Cockpit',
       title: '驾驶舱',
       icon: 'icon-jiashicang',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
     {
-      type: 'XxlJob',
+      key: 'XxlJob',
       title: '定时任务服务',
       icon: 'icon-job',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
     {
-      type: 'OpenService',
+      key: 'OpenService',
       title: '对外开放服务',
       icon: 'icon-open',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
   ];
 
@@ -56,35 +54,37 @@ export default function Home() {
     return state.warnings.list;
   });
 
+  console.log(list);
+
   const [info, setInfo] = useState<InfoObject | undefined>(undefined);
   const [info2, setInfo2] = useState<InfoObject | undefined>(undefined);
   const [info3, setInfo3] = useState<InfoObject | undefined>(undefined);
-  const [warnings, setWarnings] = useState<MonitorData[]>([]);
+  const [warnings, setWarnings] = useState<WarningData[]>([]);
 
   // 根据 ip 分离 list
   useEffect(() => {
     list.forEach((item) => {
-      const { ip, infos } = item;
+      const { host, monitor } = item;
 
-      switch (ip) {
+      switch (host) {
         case '10.123.0.190':
           setInfo({
-            host: ip,
-            monitor: infos,
+            host,
+            monitor,
           });
           break;
 
         case '10.123.0.191':
           setInfo2({
-            host: ip,
-            monitor: infos,
+            host,
+            monitor,
           });
           break;
 
         case '10.123.0.192':
           setInfo3({
-            host: ip,
-            monitor: infos,
+            host,
+            monitor,
           });
           break;
 
@@ -97,31 +97,55 @@ export default function Home() {
   // 统计错误信息进行提示
   useEffect(() => {
     // 确认所有的 warnings
-    const warnings: MonitorData[] = [];
+    const warnings: WarningData[] = [];
 
     info?.monitor.forEach((item) => {
-      if (item.status !== 'NORMAL') {
+      if (item.key === 'Ping' && item.value === '-1') {
         warnings.push({
           ...item,
-          ip: info.host,
+          host: info?.host,
+          value: 'WARNING',
+        });
+      }
+
+      if (item.value !== 'NORMAL' && item.key !== 'Ping') {
+        warnings.push({
+          ...item,
+          host: info?.host,
         });
       }
     });
 
     info2?.monitor.forEach((item) => {
-      if (item.status !== 'NORMAL') {
+      if (item.key === 'Ping' && item.value === '-1') {
         warnings.push({
           ...item,
-          ip: info2.host,
+          host: info2?.host,
+          value: 'WARNING',
+        });
+      }
+
+      if (item.value !== 'NORMAL' && item.key !== 'Ping') {
+        warnings.push({
+          ...item,
+          host: info2?.host,
         });
       }
     });
 
     info3?.monitor.forEach((item) => {
-      if (item.status !== 'NORMAL') {
+      if (item.key === 'Ping' && item.value === '-1') {
         warnings.push({
           ...item,
-          ip: info3.host,
+          host: info3?.host,
+          value: 'WARNING',
+        });
+      }
+
+      if (item.value !== 'NORMAL' && item.key !== 'Ping') {
+        warnings.push({
+          ...item,
+          host: info3?.host,
         });
       }
     });

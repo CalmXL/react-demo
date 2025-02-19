@@ -11,7 +11,6 @@ const ContainerHeight = 150;
 
 const Logs: React.FC = () => {
   const list = useAppSelector((state) => state.warnings.list);
-  console.log(list);
 
   const [loading1, setLoading1] = useState<boolean>(true);
   const [loading2, setLoading2] = useState<boolean>(true);

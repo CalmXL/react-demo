@@ -5,7 +5,7 @@ import { Status } from '@/types';
 interface ICardItemProps {
   title: string;
   icon: string;
-  status: Status;
+  status: Status | string;
 }
 
 const CarItem: React.FC<ICardItemProps> = ({
@@ -16,16 +16,17 @@ const CarItem: React.FC<ICardItemProps> = ({
   const statusColor = getStatusColor(status);
   const isDangerous = status === 'ERROR';
 
-  function getStatusColor(status: Status) {
+  function getStatusColor(status: Status | string) {
     switch (status) {
       case 'NORMAL':
         return 'text-green-500';
       case 'WARNING':
+      case '-1':
         return 'text-orange-500';
       case 'ERROR':
         return 'text-red-500';
       default:
-        break;
+        return 'text-green-500';
     }
   }
 
@@ -38,6 +39,9 @@ const CarItem: React.FC<ICardItemProps> = ({
       <span className={`${isDangerous ? 'text-gray' : statusColor}`}>
         {title}
       </span>
+      {title === '系统延迟' && (
+        <span className={`text-sm ${statusColor}`}>:{status} </span>
+      )}
     </motion.div>
   );
 };

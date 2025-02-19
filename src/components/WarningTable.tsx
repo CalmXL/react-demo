@@ -1,34 +1,36 @@
 import React, { ReactNode } from 'react';
 import { Table, Tag } from 'antd';
 
-import { IData } from '@/types';
+import { WarningData } from '@/types';
 
 const { Column } = Table;
 
 interface IProps {
   children?: ReactNode;
-  data: IData[];
+  data: WarningData[];
 }
 
 const WaringTable: React.FC<IProps> = ({ data }) => (
-  <Table<IData> dataSource={data} rowKey={(record) => record.ip + record.title}>
-    <Column title="ip" dataIndex="ip" key="ip" />
+  <Table<WarningData>
+    dataSource={data}
+    rowKey={(record) => record.host + record.title}>
+    <Column title="IP" dataIndex="host" key="host" />
     <Column title="标题" dataIndex="title" key="title" />
 
     <Column
       title="状态"
-      dataIndex="status"
-      key="status"
-      render={(status: string) => (
+      dataIndex="value"
+      key="value"
+      render={(value: string) => (
         <>
           {
             <Tag
               color={
-                status === 'WARNING'
+                value === 'WARNING'
                   ? 'rgb(249 115 22 / var(--tw-text-opacity, 1))'
                   : 'rgb(239 68 68 / var(--tw-text-opacity, 1))'
               }>
-              {status.toUpperCase()}
+              {value.toUpperCase()}
             </Tag>
           }
         </>

@@ -7,85 +7,80 @@ import { useAppDispatch } from './store';
 import { setInfosActions } from '@/store/feature/warnings';
 import Header from '@/components/Header';
 import SSEConnection from './utils/eventSource';
-import { MonitorData } from './types';
+import { DefaultData, MonitorData } from './types';
 
 function App() {
-  const [data, _] = useState<MonitorData[]>([]);
+  const [data, _] = useState<DefaultData[]>([]);
 
-  const defaultData: MonitorData[] = [
-    { type: 'Ping', title: '系统延迟', icon: 'icon-yanchi', status: 'NORMAL' },
-    { type: 'Linux', title: '节点状态', icon: 'icon-node', status: 'NORMAL' },
-    { type: 'Nginx', title: 'Nginx', icon: 'icon-nginx', status: 'NORMAL' },
-    { type: 'Redis', title: 'Redis', icon: 'icon-redis', status: 'NORMAL' },
-    { type: 'DM8', title: '达梦', icon: 'icon-dm', status: 'NORMAL' },
+  const defaultData: DefaultData[] = [
+    { key: 'Ping', title: '系统延迟', icon: 'icon-yanchi', value: '0.211' },
+    { key: 'Nginx', title: 'Nginx', icon: 'icon-nginx', value: 'NORMAL' },
+    { key: 'Redis', title: 'Redis', icon: 'icon-redis', value: 'NORMAL' },
+    { key: 'DM8', title: '达梦', icon: 'icon-dm', value: 'NORMAL' },
     {
-      type: 'Workbench',
+      key: 'Workbench',
       title: '门户服务',
       icon: 'icon-home',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
     {
-      type: 'Workmanage',
+      key: 'Workmanage',
       title: '管理后台',
       icon: 'icon-manager',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
     {
-      type: 'Cockpit',
+      key: 'Cockpit',
       title: '驾驶舱',
       icon: 'icon-jiashicang',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
     {
-      type: 'XxlJob',
+      key: 'XxlJob',
       title: '定时任务服务',
       icon: 'icon-job',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
     {
-      type: 'OpenService',
+      key: 'OpenService',
       title: '对外开放服务',
       icon: 'icon-open',
-      status: 'NORMAL',
+      value: 'NORMAL',
     },
   ];
 
   const dispatch = useAppDispatch();
 
   // 请求 sse, 保存到 redux 当中
-  new SSEConnection(
-    // 'http://192.168.76.211:12555/msscn/serverStatusSseController/monitor',
-    'http://localhost:3000/sse',
-    {
-      eventHandlers: {
-        open() {
-          console.log('sse Connection success');
-        },
-        message(event: Event) {
-          const messageEvent = event as MessageEvent;
-          const { host, monitor } = JSON.parse(messageEvent.data);
-
-          // 处理 monitor
-          const newData = defaultData.map((item) => {
-            const i = monitor.find(
-              (m: { [key: string]: string }) => m[item.type!]
-            );
-
-            return {
-              ...item,
-              status: i?.[item.type!],
-            };
-          });
-
-          // setData(newData);
-          dispatch(setInfosActions({ ip: host, infos: newData }));
-        },
-        error() {
-          console.log('sse Connection error');
-        },
+  // 'http://10.123.0.171:11011/server-monitorstatusMonitor'
+  new SSEConnection('http://localhost:3000/sse', {
+    eventHandlers: {
+      open() {
+        console.log('sse Connection success');
       },
-    }
-  );
+      message(event: Event) {
+        const messageEvent = event as MessageEvent;
+        const { host, monitor } = JSON.parse(messageEvent.data);
+
+        // 处理 monitor
+        const newData = defaultData.map((item) => {
+          const i: MonitorData = monitor.find(
+            (m: MonitorData) => item.key === m.key
+          );
+
+          return {
+            ...item,
+            value: i ? i.value : item.value,
+          };
+        });
+
+        dispatch(setInfosActions({ host, monitor: newData as DefaultData[] }));
+      },
+      error() {
+        console.log('sse Connection error');
+      },
+    },
+  });
 
   return (
     <div className="w-[100%] min-h-screen flex-col bg-gray-100">

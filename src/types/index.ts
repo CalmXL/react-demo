@@ -20,12 +20,39 @@ export interface IData {
   ip?: string;
 }
 
-export interface MonitorData extends IData {
-  content: string;
-  status: Status; // 添加状态类型
-}
+// export interface MonitorData extends IData {
+//   content?: string;
+//   status: Status; // 添加状态类型
+// }
 
+export type DefaultData =
+  | {
+      key: 'Ping';
+      title: string;
+      icon: string;
+      value: string;
+    }
+  | {
+      key: Exclude<string, 'Ping'>;
+      title: string;
+      icon: string;
+      value: Status;
+    };
+
+export type MonitorData =
+  | {
+      key: 'Ping';
+      value: string;
+    }
+  | {
+      key: Exclude<string, 'Ping'>;
+      value: Status;
+    };
 export interface InfoObject {
   host: string;
-  monitor: MonitorData[];
+  monitor: DefaultData[];
+}
+
+export interface WarningData extends Omit<DefaultData, 'key'> {
+  host: string;
 }
