@@ -93,8 +93,6 @@ export default function Time() {
     },
   });
 
-  console.log(moment().format('LLLL'));
-
   useEffect(() => {
     const id = setInterval(() => {
       setTime(`${moment().format('L')}-${moment().format('LTS')}`);

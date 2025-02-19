@@ -132,7 +132,7 @@ export default function Home() {
 
   return (
     <>
-      <motion.div className="w-full h-full flex-col justify-center items-center mt-2">
+      <motion.div className="w-full h-full flex-col justify-center items-center mt-8">
         <div className="w-[90%] mx-[5%] flex justify-between">
           <ServerCard
             host={info?.host || '10.123.0.190'}
@@ -147,9 +147,9 @@ export default function Home() {
             monitor={info3?.monitor || data}
           />
         </div>
-        <div className="w-[90%] mx-[5%] flex justify-evenly ">
+        {/* <div className="w-[90%] mx-[5%] flex justify-evenly ">
           <Logs />
-        </div>
+        </div> */}
         <WarnModal warnings={warnings} />
       </motion.div>
     </>

@@ -15,16 +15,16 @@ export default function Details() {
     let innerWarnings: MonitorData[] = [];
 
     list.forEach(({ ip, infos }) => {
-      const arr = infos.filter((item) => item.status !== 'NORMAL');
+      const arr = infos
+        .filter((item) => item.status !== 'NORMAL')
+        .map((item2) => {
+          return {
+            ...item2,
+            ip,
+          };
+        });
 
-      const arr2 = arr.map((item) => {
-        return {
-          ...item,
-          ip,
-        };
-      });
-
-      innerWarnings = innerWarnings.concat(...arr2);
+      innerWarnings = innerWarnings.concat(...arr);
     });
 
     setWarnings(innerWarnings);

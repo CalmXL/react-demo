@@ -41,8 +41,8 @@ function ServerCard({ host, monitor }: InfoObject) {
         />
       ))}
 
-      <div className="w-[350px]">
-        <Carousel autoplay fade dots={false}>
+      <div className="w-[100%]">
+        <Carousel autoplay speed={1000} dots={false} effect="fade">
           {info2.map((item2) => (
             <CardItem
               key={item2.icon}

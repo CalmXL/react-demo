@@ -88,8 +88,7 @@ function App() {
   );
 
   return (
-    // bg-[url('/src/assets/images/bg.png')
-    <div className="w-full h-full flex-col  bg-gray-100 ]">
+    <div className="w-[100%] min-h-screen flex-col bg-gray-100">
       <Header title="工作台集群监控" />
       <GlobalContext.Provider value={data}>
         <div>{useRoutes(routes)}</div>

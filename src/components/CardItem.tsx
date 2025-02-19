@@ -32,8 +32,8 @@ const CarItem: React.FC<ICardItemProps> = ({
   return (
     <motion.div
       whileHover={{ scale: 1.1 }}
-      className={`cursor-pointer border-2 w-[350px] h-[50px] rounded-lg shadow-lg flex items-center justify-center 
-      ${isDangerous ? 'animate-pulse bg-red-400' : 'bg-white '}  `}>
+      className={`cursor-pointer border-2 w-[100%] py-2 rounded-lg shadow-lg flex items-center justify-center 
+      ${isDangerous ? 'animate-pulse bg-red-400' : 'bg-white '}`}>
       <i className={`iconfont text-2xl ${icon} mr-2 ${statusColor}`}></i>
       <span className={`${isDangerous ? 'text-gray' : statusColor}`}>
         {title}
